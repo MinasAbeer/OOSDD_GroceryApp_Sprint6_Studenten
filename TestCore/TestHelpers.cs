@@ -71,10 +71,10 @@ namespace TestCore
             // Arrange
             var products = new List<Product>
             {
-                new Product(1, "Appel", 5),
-                new Product(2, "Banaan", 3),
-                new Product(3, "Peer", 2),
-                new Product(4, "Ananas", 1)
+                new Product(1, "Appel", 5, new DateOnly(2025, 10, 21), 555),
+                new Product(2, "Banaan", 3, new DateOnly(2025, 10, 21), 444),
+                new Product(3, "Peer", 2, new DateOnly(2025, 10, 21), 777),
+                new Product(4, "Ananas", 1, new DateOnly(2025, 10, 21), 555)
             };
             string searchTerm = "an";
 
