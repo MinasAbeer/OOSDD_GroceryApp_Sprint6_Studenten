@@ -1,4 +1,5 @@
 using Grocery.Core.Helpers;
+using Grocery.Core.Models;
 
 namespace TestCore
 {
@@ -41,6 +42,48 @@ namespace TestCore
         public void TestPasswordHelperReturnsFalse(string password, string passwordHash)
         {
             Assert.IsFalse(PasswordHelper.VerifyPassword(password, passwordHash));
+        }
+
+        [Test]
+        public void TestProductSearchUnhappyPath()
+        {
+            // Arrange
+            var products = new List<Product>
+            {
+                new Product(1, "Appel", 5, new DateOnly(2025, 10, 21), 555),
+                new Product(2, "Banaan", 3, new DateOnly(2025, 10, 21), 444),
+                new Product(3, "Peer", 2, new DateOnly(2025, 10, 21), 777),
+                new Product(4, "Ananas", 1, new DateOnly(2025, 10, 21), 555)
+            };
+
+            string searchTerm = "xyz";
+
+            // Act
+            var filtered = products.Where(p => p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            // Assert
+            Assert.That(filtered.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void TestProductSearchHappyPath()
+        {
+            // Arrange
+            var products = new List<Product>
+            {
+                new Product(1, "Appel", 5),
+                new Product(2, "Banaan", 3),
+                new Product(3, "Peer", 2),
+                new Product(4, "Ananas", 1)
+            };
+            string searchTerm = "an";
+
+            // Act
+            var filtered = products.Where(p => p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            // Assert
+            Assert.That(filtered.Count, Is.EqualTo(2));
+            Assert.That(filtered.Select(p => p.Name), Is.EqualTo(new[] { "Banaan", "Ananas" }));
         }
     }
 }
