@@ -1,5 +1,5 @@
 name: Zoek test
- 
+
 on:
   push:
     branches:
@@ -9,27 +9,27 @@ on:
     branches:
       - main
       - Test/zoektest
- 
+
 jobs:
-  test:
-    runs-on: ubuntu-latest  # Of windows-latest/macOS-latest als specifiek platform nodig is
+  test-android:
+    runs-on: ubuntu-latest
     steps:
       - name: Haal de repository op
         uses: actions/checkout@v4
- 
+
       - name: Installeer .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'  # Gebruik de juiste versie voor MAUI
- 
-      - name: Installeer MAUI workloads
+          dotnet-version: '8.0.x'
+
+      - name: Install MAUI Android workload
         run: dotnet workload install maui-android
- 
-      - name: Herstel afhankelijkheden
+
+      - name: Restore
         run: dotnet restore
- 
-      - name: Bouw de applicatie
-        run: dotnet build --configuration Release --no-restore
- 
-      - name: Voer unit tests uit
+
+      - name: Build (Android only)
+        run: dotnet build ./Grocery.App/Grocery.App.csproj -c Release -f net8.0-android --no-restore
+
+      - name: Run tests
         run: dotnet test --configuration Release --no-restore --no-build --verbosity normal
