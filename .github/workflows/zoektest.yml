@@ -1,4 +1,4 @@
-name: MAUI Unit Tests
+name: Zoek test
  
 on:
   push:
